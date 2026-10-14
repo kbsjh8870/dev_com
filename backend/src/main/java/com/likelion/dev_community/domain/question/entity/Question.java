@@ -118,10 +118,6 @@ public class Question extends BaseTimeEntity {
         this.status = QuestionStatus.OPEN;
     }
 
-    public void increaseViewCount() {
-        this.viewCount++;
-    }
-
     public void increaseLikeCount() {
         this.likeCount++;
     }

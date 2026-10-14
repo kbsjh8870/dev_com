@@ -190,6 +190,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     // F-08
     @Override
+    @Transactional(readOnly = true)
     public QuestionDetailResponse readDetailQuestion(Long questionId, String viewerKey, Long userId, boolean isAdmin) {
 
         Question question = questionRepository.findById(questionId)
@@ -200,7 +201,7 @@ public class QuestionServiceImpl implements QuestionService {
         }
 
         if (viewCountService.shouldIncrease(questionId, viewerKey)) {
-            question.increaseViewCount();
+            viewCountService.increase(questionId);
         }
 
         List<String> tags = questionTagRepository.findByQuestionIdInOrderBySortOrderAsc(List.of(questionId)).stream()
@@ -217,7 +218,9 @@ public class QuestionServiceImpl implements QuestionService {
                     .orElse(null);
         }
 
-        return QuestionDetailResponse.of(question, tags, myChatRoomId);
+        int viewCount = question.getViewCount() + Math.toIntExact(viewCountService.pendingCount(questionId));
+
+        return QuestionDetailResponse.of(question, tags, myChatRoomId, viewCount);
     }
 
     // F-09 (수정)
