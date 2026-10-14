@@ -57,6 +57,10 @@ public class QuestionDetailResponse {
     }
 
     public static QuestionDetailResponse of(Question question, List<String> tags, Long myChatRoomId) {
+        return of(question, tags, myChatRoomId, question.getViewCount());
+    }
+
+    public static QuestionDetailResponse of(Question question, List<String> tags, Long myChatRoomId, int viewCount) {
         return new QuestionDetailResponse(
                 question.getId(),
                 question.getAuthor().getId(),
@@ -65,7 +69,7 @@ public class QuestionDetailResponse {
                 question.getTitle(),
                 question.getContent(),
                 question.getStatus(),
-                question.getViewCount(),
+                viewCount,
                 question.getLikeCount(),
                 tags,
                 question.getCreatedAt(),
