@@ -13,6 +13,10 @@ spring:
     hikari:
       # 기본값(10)은 저트래픽 단일 인스턴스엔 과함 - 커넥션마다 스레드/버퍼 오버헤드가 붙는다.
       maximum-pool-size: 5
+  task:
+    scheduling:
+      pool:
+        size: 2
   mail:
     host: ${MAIL_HOST:smtp.gmail.com}
     port: ${MAIL_PORT:587}
